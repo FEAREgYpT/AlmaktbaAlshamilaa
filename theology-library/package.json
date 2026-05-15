@@ -6,6 +6,11 @@
   "type": "commonjs",
   "scripts": {
     "dev": "concurrently \"vite\" \"npm run electron-dev\"",
+    "electron-dev": "npm run electronDevBuild && electron .",
+    "build": "vite build && npm run electronDevBuild",
+    "dist": "npm run build && electron-builder",
+    "dist:win": "npm run build && electron-builder --win",
+    "electronDevBuild": "tsc -p tsconfig.electron.json --noEmitOnError false"
     "electron-dev": "tsc -p tsconfig.electron.json && electron .",
     "build": "vite build && tsc -p tsconfig.electron.json",
     "dist": "npm run build && electron-builder",
@@ -44,6 +49,31 @@
     "autoprefixer": "^10.4.18",
     "tsx": "^4.7.1"
   },
+  "build": {
+    "appId": "com.theologylib.sovereign",
+    "productName": "Sovereign Theology Library",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "dist-electron/**",
+      "server/**",
+      "electron/**",
+      "package.json",
+      "node_modules/**"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/",
+        "to": "assets/"
+      }
+    ],
+    "asarUnpack": [
+      "node_modules/better-sqlite3/**"
+    ]
+  }
+}
 "build": {
   "files": [
     "dist/**/*",
