@@ -1,0 +1,25 @@
+appId: com.theologylib.sovereign
+productName: Sovereign Theology Library
+directories:
+  output: release
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: assets/icon.ico
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Theology Library
+files:
+  - dist/**
+  - dist-electron/**
+  - node_modules/**
+  - package.json
+extraResources:
+  - from: assets/
+    to: assets/
+asarUnpack:
+  - node_modules/better-sqlite3/**
