@@ -11,6 +11,10 @@
     "dist": "npm run build && electron-builder",
     "dist:win": "npm run build && electron-builder --win",
     "electronDevBuild": "tsc -p tsconfig.electron.json --noEmitOnError false"
+    "electron-dev": "tsc -p tsconfig.electron.json && electron .",
+    "build": "vite build && tsc -p tsconfig.electron.json",
+    "dist": "npm run build && electron-builder",
+    "dist:win": "npm run build && electron-builder --win"
   },
   "dependencies": {
     "better-sqlite3": "^9.4.3",
@@ -69,4 +73,11 @@
       "node_modules/better-sqlite3/**"
     ]
   }
+}
+"build": {
+  "files": [
+    "dist/**/*",
+    "dist-electron/**/*",
+    "package.json"
+  ]
 }

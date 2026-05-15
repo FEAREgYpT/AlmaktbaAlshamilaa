@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
+    "target": "ESNext",
     "module": "CommonJS",
     "moduleResolution": "Node",
     "outDir": "dist-electron",
@@ -18,4 +19,8 @@
     "electron",
     "server"
   ]
+}
+    "types": ["node"]
+  },
+  "include": ["electron/**/*"]
 }

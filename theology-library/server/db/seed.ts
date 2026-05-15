@@ -110,3 +110,6 @@ export function seedDatabase(db: Database.Database): void {
 
   tx();
 }
+export function seedDatabase(db: Database.Database) { db.prepare("INSERT INTO testaments (name_ar,name_en,order_index) VALUES (?,?,?)").run('العهد القديم','Old Testament',1); db.prepare("INSERT INTO testaments (name_ar,name_en,order_index) VALUES (?,?,?)").run('العهد الجديد','New Testament',2);
+const books=[['Genesis','التكوين',1,50],['Exodus','الخروج',1,40],['Matthew','متى',2,28],['Revelation','الرؤيا',2,22]]; const stmt=db.prepare('INSERT INTO books (name_en,name_ar,testament_id,book_order,chapter_count) VALUES (?,?,?,?,?)'); books.forEach((b,i)=>stmt.run(b[0],b[1],b[2],i+1,b[3]));
+for(let i=1;i<=66;i++){db.prepare('INSERT OR IGNORE INTO categories (name_ar,name_en,description,order_index) VALUES (?,?,?,?)').run(`موضوع ${i}`,'Topic '+i,'Sample',i);} }
