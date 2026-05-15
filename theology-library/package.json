@@ -44,7 +44,19 @@
     "autoprefixer": "^10.4.18",
     "tsx": "^4.7.1"
   },
-  "build": {
-    "extends": null
+"build": {
+  "appId": "com.isl.theologyhub",
+  "productName": "SovereignTheologyHub",
+  "directories": {
+    "output": "dist"
+  },
+  "files": [
+    "dist/**/*",
+    "dist-electron/**/*",
+    "package.json"
+  ],
+  "win": {
+    "target": "portable",
+    "icon": "public/icon.ico"
   }
 }
