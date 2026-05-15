@@ -1,0 +1,2 @@
+Place a valid Windows ICO file here (e.g., 256x256 multi-size icon).
+Use ImageMagick: magick icon.png -define icon:auto-resize=16,24,32,48,64,128,256 assets/icon.ico
