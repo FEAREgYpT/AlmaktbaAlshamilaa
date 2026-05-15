@@ -34,6 +34,7 @@
 * **Database:** Relational Schema (PostgreSQL/MySQL) لضمان دقة الفهرسة والربط بين الجداول.
 * **Frontend:** Modern UI/UX مصمم خصيصاً لتسهيل القراءة الطويلة والبحث العلمي.
 * **Logic:** نظام متكامل لإدارة التاجات (Tagging) والمراجع (Reference Management).
+* x.com/egy_hawk_777
 
 ---
 
