@@ -1,5 +1,5 @@
-appId: com.theologylib.sovereign
-productName: Sovereign Theology Library
+appId: com.sth.desktop
+productName: Sovereign Theology Hub
 directories:
   output: release
 win:
@@ -12,14 +12,18 @@ nsis:
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
   createStartMenuShortcut: true
-  shortcutName: Theology Library
+  shortcutName: Sovereign Theology Hub
 files:
   - dist/**
   - dist-electron/**
-  - node_modules/**
+  - server/**
   - package.json
+  - node_modules/**
 extraResources:
   - from: assets/
     to: assets/
+  - from: server/db/schema.sql
+    to: bootstrap/schema.sql
 asarUnpack:
   - node_modules/better-sqlite3/**
+  - node_modules/mysql2/**
