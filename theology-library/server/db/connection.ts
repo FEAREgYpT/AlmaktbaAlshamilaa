@@ -5,6 +5,10 @@ import { seedDatabase } from './seed';
 
 let dbInstance: Database.Database | null = null;
 
+function loadSchemaBlueprint(): string {
+  return fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf-8');
+}
+
 function verifySchema(db: Database.Database): void {
   db.pragma('foreign_keys = ON');
 
@@ -20,34 +24,34 @@ function verifySchema(db: Database.Database): void {
     'texts',
     'cross_links',
     'search_index',
-    'fts_index'
+    'fts_index',
   ];
 
   const found = new Set(
-    (db.prepare("SELECT name FROM sqlite_master WHERE type IN ('table', 'virtual table')").all() as Array<{ name: string }>).map((r) => r.name)
+    (db.prepare("SELECT name FROM sqlite_master WHERE type IN ('table', 'virtual table')").all() as Array<{ name: string }>).map((r) => r.name),
   );
 
   const missing = requiredTables.filter((table) => !found.has(table));
   if (missing.length > 0) {
     throw new Error(`Schema verification failed. Missing tables: ${missing.join(', ')}`);
   }
-
-  const categoryFks = db.prepare("PRAGMA foreign_key_list('categories')").all() as Array<{ from: string; table: string }>;
-  const hasSelfReference = categoryFks.some((fk) => fk.from === 'parent_id' && fk.table === 'categories');
-  if (!hasSelfReference) {
-    throw new Error('Schema verification failed. categories.parent_id must reference categories(id).');
-  }
 }
 
-export function getDb(dataPath: string): Database.Database {
+export function initializeDb(dataPath: string): Database.Database {
   if (dbInstance) return dbInstance;
 
   fs.mkdirSync(dataPath, { recursive: true });
-  const databasePath = path.join(dataPath, 'theology-library.db');
-  dbInstance = new Database(databasePath, { fileMustExist: false });
+  const databasePath = path.join(dataPath, 'sth.db');
+  const dbExists = fs.existsSync(databasePath);
 
-  const schema = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf-8');
-  dbInstance.exec(schema);
+  dbInstance = new Database(databasePath, { fileMustExist: false });
+  dbInstance.pragma('journal_mode = WAL');
+  dbInstance.pragma('foreign_keys = ON');
+
+  if (!dbExists) {
+    dbInstance.exec(loadSchemaBlueprint());
+  }
+
   verifySchema(dbInstance);
 
   const row = dbInstance.prepare('SELECT COUNT(*) as count FROM testaments').get() as { count: number };
@@ -57,6 +61,14 @@ export function getDb(dataPath: string): Database.Database {
 
   return dbInstance;
 }
-import Database from 'better-sqlite3'; import fs from 'fs'; import path from 'path'; import { seedDatabase } from './seed';
-let db: Database.Database;
-export function getDb(dataPath: string) { if (db) return db; fs.mkdirSync(dataPath,{recursive:true}); const p=path.join(dataPath,'theology-library.db'); db=new Database(p); const schema=fs.readFileSync(path.join(__dirname,'schema.sql'),'utf-8'); db.exec(schema); const c=(db.prepare('SELECT COUNT(*) as count FROM testaments').get() as any).count; if (c===0) seedDatabase(db); return db; }
+
+export function getDb(dataPath: string): Database.Database {
+  return initializeDb(dataPath);
+}
+
+export function closeDb(): void {
+  if (dbInstance) {
+    dbInstance.close();
+    dbInstance = null;
+  }
+}

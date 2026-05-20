@@ -1,2 +1,5 @@
-import { contextBridge, dialog, app } from 'electron'; import fs from 'fs';
-contextBridge.exposeInMainWorld('electronAPI', { getAppVersion: () => app.getVersion(), openFileDialog: async (filters: any) => { const r = await dialog.showOpenDialog({ properties: ['openFile'], filters }); return r.filePaths[0] || null; }, saveFile: (sourcePath: string, destPath: string) => { fs.copyFileSync(sourcePath, destPath); return true; }, getDataPath: () => app.getPath('userData') });
+import { contextBridge, ipcRenderer } from 'electron';
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  getApiBaseUrl: () => ipcRenderer.invoke('sth:get-api-base-url'),
+});
