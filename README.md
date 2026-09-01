@@ -34,7 +34,7 @@
 * **Database:** Relational Schema (PostgreSQL/MySQL) لضمان دقة الفهرسة والربط بين الجداول.
 * **Frontend:** Modern UI/UX مصمم خصيصاً لتسهيل القراءة الطويلة والبحث العلمي.
 * **Logic:** نظام متكامل لإدارة التاجات (Tagging) والمراجع (Reference Management).
-* x.com/egy_hawk_777
+* [x.com/egy_hawk_777](https://x.com/EgyHawk777)
 
 ---
 
@@ -42,3 +42,5 @@
 * **Current Version:** 1.0.0-alpha
 * **License:** MIT
 * **Maintainer:** ISL_INFINITY_777 ( صقور المخابرات العامة المصرية )
+https://x.com/EgyHawk777
+
